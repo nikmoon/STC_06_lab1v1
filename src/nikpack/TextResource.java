@@ -29,6 +29,24 @@ class FileTextResource implements TextResource {
 }
 
 
+class TestTextResource implements TextResource {
+
+    private String[] strings;
+    private int index = 0;
+
+    public TestTextResource(String ... strings) {
+        this.strings = strings;
+    }
+
+    @Override
+    public String readWord() throws FoundLatinException {
+        if (index >= strings.length)
+            return null;
+        return strings[index++];
+    }
+}
+
+
 /**
  *
  */

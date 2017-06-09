@@ -26,7 +26,9 @@ public class WorkerThread extends Thread {
         try {
             while (!stopWork) {
                 currentWord = resource.readWord();
-                this.report.update(currentWord);    // возвращаемый результат нас не интересует
+                if (currentWord == null)
+                    break;
+                report.update(currentWord);    // возвращаемый результат нас не интересует
             }
         }
         catch (FoundLatinException ex) {
