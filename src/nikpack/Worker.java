@@ -11,6 +11,8 @@ import java.util.concurrent.BlockingQueue;
  */
 public class Worker extends StoppableThread {
 
+    // данный флаг полезен, если необходимо "мягко" остановить
+    // все выполняющиеся потоки класса Worker
     public static volatile boolean stopAll = false;
 
     private TextResource resource;
@@ -29,11 +31,13 @@ public class Worker extends StoppableThread {
         System.out.println("Поток \"Работник\" запущен");
         try {
             String line;
+            break_thread:
             do {
                 line = resource.readLine();
+                System.out.println(line + line);
                 for (String word : parser.init(line)) {
                     if (stopWork || Worker.stopAll)
-                        break;
+                        break break_thread;
                     reporter.getQueue().put(word);
                     Thread.sleep(200);
                 }
@@ -48,7 +52,7 @@ public class Worker extends StoppableThread {
             }
         } catch (ParserException e) {
             e.printStackTrace();
-            // останавливаем все потоки
+            // парсер обнаружил латинский символ - останавливаем все потоки Worker
             Worker.stopAll = true;
         } finally {
             if (resource != null)

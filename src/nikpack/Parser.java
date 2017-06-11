@@ -6,12 +6,19 @@ import java.util.Iterator;
 
 /**
  * Created by nikbird on 11.06.2017.
+ *
+ * Интерфейс, описывающий некий парсер текстовой строки
+ *
  */
 public interface Parser extends Iterable<String>, Iterator<String> {
     Iterable<String> init(String line);
 }
 
-
+/**
+ * Данное исключение предназначено для сообщения коду, использующему парсер, о
+ * возникновении ошибочной сутуации - при обнаружении хотя бы одного символа
+ * в очередном слове анализируемой строки
+ */
 class ParserException extends RuntimeException {
 
 }
@@ -22,6 +29,12 @@ class TestParser implements Parser {
     private String[] words;
     private int index;
 
+    /**
+     * Подготовка итератора
+     *
+     * @param line
+     * @return
+     */
     @Override
     public Iterable<String> init(String line) {
         index = 0;

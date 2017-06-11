@@ -14,7 +14,10 @@ interface TextResource {
     void close() throws IOException;
 }
 
-
+/**
+ * Данное исключение "бросается" экземпляром текстового ресурса, когда он
+ * опустошается
+ */
 class EndOfResourceException extends Exception {
     public EndOfResourceException(TextResource resource) {
         try {
@@ -25,8 +28,9 @@ class EndOfResourceException extends Exception {
     }
 }
 
+
 /**
- *
+ * Текстовый ресурс, считывающий данные из текстового файла
  */
 class FileTextResource implements TextResource {
 
@@ -35,11 +39,19 @@ class FileTextResource implements TextResource {
 
     public FileTextResource(String fileName, String charset) throws FileNotFoundException, UnsupportedEncodingException {
         this.name = fileName;
+
+        // такая сложная конструкция необходима для того, чтобы читать текстовые файлы
+        // в разных кодировках
         reader = new BufferedReader(
                 new InputStreamReader(new FileInputStream(fileName),charset)
         );
     }
 
+    /**
+     * Закрываем ресурс
+     *
+     * @throws IOException
+     */
     public void close() throws IOException {
         reader.close();
     }
@@ -66,11 +78,15 @@ class FileTextResource implements TextResource {
         } catch (IOException e) {
             System.out.println("Серьезная ошибка чтения из файла \"" + name + "\"");
         }
+
+        // данная строка выполнится после вывода сообщения о серьезной ошибке ввода-вывода
         throw new EndOfResourceException(this);
     }
 }
 
-
+/**
+ * Тестовый ресурс, получающий данный из обычной строки
+ */
 class TestTextResource implements TextResource {
 
     private Scanner scanner;
