@@ -43,7 +43,6 @@ public class Reporter extends StoppableThread {
      *
      */
     private void processWord(String word) throws InterruptedException {
-        System.out.println("Считано слово " + word);
         if (word.equals("")) {
             stopWork = true;
             throw new InterruptedException();

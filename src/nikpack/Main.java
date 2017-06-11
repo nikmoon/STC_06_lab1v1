@@ -12,10 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class Main {
 
     public static void main(String[] args) {
-
-        //System.out.println(" ".split(" ").length);
         test(Arrays.asList("test/file1.txt", "test/file2.txt", "test/file3.txt"), "cp1251");
-        //test(Arrays.asList("test/file1.txt"), "cp1251");
     }
 
     public static void test(List<String> fileNames, String charset) {

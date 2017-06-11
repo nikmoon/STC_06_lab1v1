@@ -25,13 +25,28 @@ class TestParser implements Parser {
     @Override
     public Iterable<String> init(String line) {
         index = 0;
-        words = line.trim().split(" ");
+
+        // заменяем все знаки пунктуации на пробелы
+        line = line.trim().replaceAll("\\p{Punct}", " ");
+
+        // теперь заменяем все управляющие символы на пробелы
+        line = line.replaceAll("\\p{Cntrl}", " ");
+
+        // теперь заменяем все числа на пробелы
+        line = line.replaceAll(" \\p{Digit}+", " ");
+
+        // теперь разбиваем на слова
+        words = line.split("\\s+");
         return this;
     }
 
     @Override
     public boolean hasNext() {
         if (index < words.length) {
+
+            // если есть хоть один
+            if (words[index].matches(".*\\p{Alpha}+.*"))
+                throw new ParserException();
             return true;
         }
         return false;
