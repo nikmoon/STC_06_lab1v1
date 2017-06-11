@@ -1,50 +1,70 @@
 package nikpack;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
+
+import java.io.*;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 
 public class Main {
 
     public static void main(String[] args) {
-        List<Thread> workers = new ArrayList<>();
-        Report report = new Report();
-        TextResource[] resources = {
-                new TestTextResource("мама", "папа", "дядя"),
-                new TestTextResource("папа", "сынок", "дочка"),
-                new TestTextResource("папа", "мама", "теща"),
-        };
 
-        for(TextResource res: resources) {
-            Thread worker = new WorkerThread(res, report);
-            workers.add(worker);
-            worker.start();
-        }
+        //System.out.println(" ".split(" ").length);
+        test(Arrays.asList("test/file1.txt", "test/file2.txt", "test/file3.txt"), "cp1251");
+        //test(Arrays.asList("test/file1.txt"), "cp1251");
+    }
+
+    public static void test(List<String> fileNames, String charset) {
+
+        Reporter reporter = new Reporter();
+        ExecutorService threadPool = Executors.newFixedThreadPool(3);
+
+        reporter.start();
 
         try {
-            for(Thread worker: workers)
-                worker.join();
+            for (String fileName : fileNames) {
+                TextResource resource;
+                try {
+                    resource = new FileTextResource(fileName, charset);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Worker.stopAll = true;
+                    break;
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                    Worker.stopAll = true;
+                    break;
+                }
+                // если какой-либо рабочий поток попросил остановить все
+                if (Worker.stopAll) {
+                    break;
+                }
+
+                // пытаемся запустить очередной рабочий поток
+                threadPool.execute(new Worker(reporter, resource, new TestParser()));
+            }
+
+            // дожидаемся завершения всех рабочих потоков
+            threadPool.shutdown();
+            threadPool.awaitTermination(60, TimeUnit.SECONDS);
+            if (!threadPool.isTerminated()) {
+                System.out.println("Серьезная ошибка!!! Не все рабочие потоки завершились корректно");
+                System.exit(-1);
+            }
+
+            reporter.getQueue().put("");    // завершаем поток "Отчет"
+            try {
+                reporter.join(10000);
+            } catch (InterruptedException e) {
+                System.out.println("Серьезная ошибка!!! Поток \"Отчет\" не завершается корректно");
+            }
+
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Главный поток неожиданно прерван");
         }
-
-    }
-}
-
-class Window extends JFrame {
-
-    JButton btnClick;
-
-    public Window(String title) throws HeadlessException {
-        super(title);
-        btnClick = new JButton("Нажми сюда");
-        btnClick.setBounds(100, 100, 150, 100);
-        add(btnClick);
-        setSize(400, 300);
-        setLayout(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
     }
 }
