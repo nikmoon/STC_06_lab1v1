@@ -93,6 +93,7 @@ class FileTextResourceTest {
 
     @Test
     void readLine() {
+        int exceptionsCount = 0;
         for(int i = 0; i < 3; i++) {
             FileTextResource resource = resources[i];
             String[] lines = fileContent.get(i);
@@ -102,10 +103,12 @@ class FileTextResourceTest {
                     String line = resource.readLine();
                     assertEquals(lines[j], line);
                 } catch (EndOfResourceException e) {
+                    exceptionsCount++;
                     break;
                 }
             }
         }
+        assertEquals(3, exceptionsCount);
     }
 
     @Test

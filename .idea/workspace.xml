@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c5599697-2c46-48dd-996f-5a18230ca3ba" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/STC_06_lab1v1.iml" afterPath="$PROJECT_DIR$/STC_06_lab1v1.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/nikpack/TextResource.java" afterPath="$PROJECT_DIR$/src/nikpack/TextResource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/nikpack/Worker.java" afterPath="$PROJECT_DIR$/src/nikpack/Worker.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Tests/FileTextResourceTest.java" afterPath="$PROJECT_DIR$/src/Tests/FileTextResourceTest.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -50,11 +48,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Parser.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Parser.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/nikpack/Parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="16">
+            <state relative-caret-position="-224">
               <caret line="40" column="5" lean-forward="false" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FileTextResourceTest.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Tests/FileTextResourceTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="351">
+              <caret line="110" column="22" lean-forward="false" selection-start-line="110" selection-start-column="22" selection-end-line="110" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -96,8 +106,8 @@
         <option value="$PROJECT_DIR$/src/nikpack/FileTextResourceTest.java" />
         <option value="$PROJECT_DIR$/src/nikpack/TextResource.java" />
         <option value="$PROJECT_DIR$/src/nikpack/Worker.java" />
-        <option value="$PROJECT_DIR$/src/Tests/FileTextResourceTest.java" />
         <option value="$PROJECT_DIR$/src/nikpack/FileTextResource.java" />
+        <option value="$PROJECT_DIR$/src/Tests/FileTextResourceTest.java" />
       </list>
     </option>
   </component>
@@ -697,14 +707,11 @@
       <workItem from="1497167213369" duration="36461000" />
       <workItem from="1497822054641" duration="7657000" />
       <workItem from="1497833313499" duration="5154000" />
-      <workItem from="1497899853484" duration="8404000" />
+      <workItem from="1497899853484" duration="9165000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="FileTextResourceTest - 2017.06.20 at 00h 13m 39s.xml">
-      <configuration name="FileTextResourceTest" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="FileTextResourceTest - 2017.06.20 at 00h 24m 59s.xml">
       <configuration name="FileTextResourceTest" configurationId="JUnit" />
     </history-entry>
@@ -723,18 +730,21 @@
     <history-entry file="FileTextResourceTest - 2017.06.20 at 00h 41m 03s.xml">
       <configuration name="FileTextResourceTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="FileTextResourceTest_getName - 2017.06.19 at 22h 51m 12s.xml">
-      <configuration name="FileTextResourceTest.getName" configurationId="JUnit" />
+    <history-entry file="FileTextResourceTest - 2017.06.20 at 01h 48m 49s.xml">
+      <configuration name="FileTextResourceTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="FileTextResourceTest_getName - 2017.06.19 at 23h 28m 36s.xml">
-      <configuration name="FileTextResourceTest.getName" configurationId="JUnit" />
+    <history-entry file="FileTextResourceTest - 2017.06.20 at 01h 49m 06s.xml">
+      <configuration name="FileTextResourceTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="FileTextResourceTest - 2017.06.20 at 01h 49m 55s.xml">
+      <configuration name="FileTextResourceTest" configurationId="JUnit" />
     </history-entry>
     <history-entry file="FileTextResourceTest_getName - 2017.06.20 at 00h 24m 45s.xml">
       <configuration name="FileTextResourceTest.getName" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="78784000" />
+    <option name="totallyTimeSpent" value="79545000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1301" height="772" extended-state="6" />
@@ -750,7 +760,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3268945" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3268945" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1036,20 +1046,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Tests/FileTextResourceTest.java">
+    <entry file="file://$PROJECT_DIR$/src/nikpack/Parser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="979">
-          <caret line="109" column="0" lean-forward="true" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+        <state relative-caret-position="-224">
+          <caret line="40" column="5" lean-forward="false" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/nikpack/Parser.java">
+    <entry file="file://$PROJECT_DIR$/src/Tests/FileTextResourceTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16">
-          <caret line="40" column="5" lean-forward="false" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
+        <state relative-caret-position="351">
+          <caret line="110" column="22" lean-forward="false" selection-start-line="110" selection-start-column="22" selection-end-line="110" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
