@@ -50,7 +50,7 @@ public class Worker extends StoppableThread {
                     Thread.sleep(100);
                 }
             } while (true);
-        } catch (EndOfResourceException e) {
+        } catch (TextResource.EndOfResourceException e) {
             // ресурс пуст, просто завершаем рабочий поток
 //            resource = null;
         } catch (InterruptedException e) {
