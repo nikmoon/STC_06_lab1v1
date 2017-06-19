@@ -20,11 +20,20 @@ public interface Parser extends Iterable<String>, Iterator<String> {
  * в очередном слове анализируемой строки
  */
 class ParserException extends RuntimeException {
+    private String token;
 
+    public ParserException(String token) {
+        super();
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
+    }
 }
 
 
-class TestParser implements Parser {
+class LineParser implements Parser {
 
     private String[] words;
     private int index;
@@ -59,7 +68,7 @@ class TestParser implements Parser {
 
             // если есть хоть один
             if (words[index].matches(".*\\p{Alpha}+.*"))
-                throw new ParserException();
+                throw new ParserException(words[index]);
             return true;
         }
         return false;

@@ -4,9 +4,7 @@ package nikpack;
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 
 public class Main {
@@ -17,10 +15,13 @@ public class Main {
 
     public static void test(List<String> fileNames, String charset) {
 
-        Reporter reporter = new Reporter();
+
         ExecutorService threadPool = Executors.newFixedThreadPool(3);
 
-        reporter.start();
+
+        new Reporter("report 1");
+        new Reporter("report 2");
+        new Reporter("report 3");
 
         try {
             for (String fileName : fileNames) {
@@ -42,7 +43,7 @@ public class Main {
                 }
 
                 // пытаемся запустить очередной рабочий поток
-                threadPool.execute(new Worker(reporter, resource, new TestParser()));
+                threadPool.execute(new Worker(resource));
             }
 
             // дожидаемся завершения всех рабочих потоков
@@ -53,12 +54,11 @@ public class Main {
                 System.exit(-1);
             }
 
-            reporter.getQueue().put("");    // завершаем поток "Отчет"
-            try {
-                reporter.join(10000);
-            } catch (InterruptedException e) {
-                System.out.println("Серьезная ошибка!!! Поток \"Отчет\" не завершается корректно");
-            }
+            //  отправляем всем потокам-отчетам флаг завершения
+            Reporter.sendToAllReporters("");
+
+            // дожидаемся завершения всех отчетных потоков
+            Reporter.joinAll(5000);
 
         } catch (InterruptedException e) {
             System.out.println("Главный поток неожиданно прерван");

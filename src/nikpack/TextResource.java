@@ -12,11 +12,15 @@ import java.util.Scanner;
 interface TextResource {
     String readLine() throws EndOfResourceException;
     void close() throws IOException;
+    String getName();
 }
 
 /**
- * Данное исключение "бросается" экземпляром текстового ресурса, когда он
- * опустошается
+ *  Данное исключение "бросается" экземпляром текстового ресурса, когда он
+ *  опустошается
+ *
+ *  Не требуется закрывать ресурс при "отлавливании" данного исключения,
+ *  т.к. он закрывается в конструкторе исключения
  */
 class EndOfResourceException extends Exception {
     public EndOfResourceException(TextResource resource) {
@@ -34,11 +38,11 @@ class EndOfResourceException extends Exception {
  */
 class FileTextResource implements TextResource {
 
-    private String name;
+    private String fileName;
     private BufferedReader reader;
 
     public FileTextResource(String fileName, String charset) throws FileNotFoundException, UnsupportedEncodingException {
-        this.name = fileName;
+        this.fileName = fileName;
 
         // такая сложная конструкция необходима для того, чтобы читать текстовые файлы
         // в разных кодировках
@@ -76,11 +80,16 @@ class FileTextResource implements TextResource {
             } while(line.equals(""));
             return line;
         } catch (IOException e) {
-            System.out.println("Серьезная ошибка чтения из файла \"" + name + "\"");
+            System.out.println("Серьезная ошибка чтения из файла \"" + fileName + "\"");
         }
 
         // данная строка выполнится после вывода сообщения о серьезной ошибке ввода-вывода
         throw new EndOfResourceException(this);
+    }
+
+    @Override
+    public String getName() {
+        return fileName;
     }
 }
 
@@ -109,6 +118,11 @@ class TestTextResource implements TextResource {
     @Override
     public void close() throws IOException {
         scanner.close();
+    }
+
+    @Override
+    public String getName() {
+        return "TestTextResource";
     }
 }
 

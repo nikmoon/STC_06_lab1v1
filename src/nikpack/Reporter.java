@@ -2,6 +2,7 @@ package nikpack;
 
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
@@ -10,11 +11,20 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class Reporter extends StoppableThread {
 
+    /**
+     *  Список всех запущенных потоков для вывода отчета
+     */
+    private static List<Reporter> reporters = new CopyOnWriteArrayList<>();
+
+    private String name;
     private BlockingQueue<String> queue;
     private Map<String, Integer> words = new HashMap<>();
 
-    public Reporter() {
-        this.queue = new LinkedBlockingQueue<>();
+    public Reporter(String name) {
+        this.name = name;
+        queue = new LinkedBlockingQueue<>();
+        start();
+        Reporter.reporters.add(this);
     }
 
     /**
@@ -22,7 +32,7 @@ public class Reporter extends StoppableThread {
      */
     @Override
     public void run() {
-        System.out.println("Поток \"Отчет\" запущен");
+        System.out.println("Reporter thread [" + name + "] started");
         try {
             while (!stopWork) {
                 processWord(queue.take());
@@ -33,7 +43,7 @@ public class Reporter extends StoppableThread {
                 System.out.println("Неожиданное прерывание потока \"Отчет\"");
             }
         }
-        System.out.println("Поток \"Отчет\" завершен");
+        System.out.println("Reporter thread [" + name + "] ended");
     }
 
     /**
@@ -57,13 +67,32 @@ public class Reporter extends StoppableThread {
      *
      */
     private void update() {
-        StringBuilder reportString = new StringBuilder();
+        StringBuilder reportString = new StringBuilder(name + ": ");
         for(Map.Entry<String, Integer> entry: words.entrySet())
             reportString.append(entry.getKey() + ": " + entry.getValue() + "; ");
         System.out.println(reportString);
     }
 
-    public BlockingQueue<String> getQueue() {
-        return queue;
+    /**
+     *  Передать очередной валидный токен каждому потоку-отчету
+     * @param token
+     */
+    public static void sendToAllReporters(String token) {
+        for(Reporter reporter: Reporter.reporters) {
+            reporter.queue.offer(token);
+        }
+    }
+
+    /**
+     *  Массовый join для всех потоков Reporter
+     */
+    public static void joinAll(long millis) {
+        for(Reporter reporter: Reporter.reporters) {
+            try {
+                reporter.join(millis);
+            } catch (InterruptedException e) {
+                System.out.println("Error!!! Thread [" + reporter.name + "] hang");
+            }
+        }
     }
 }

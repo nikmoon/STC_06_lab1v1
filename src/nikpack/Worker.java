@@ -1,7 +1,7 @@
 package nikpack;
 
 import java.io.IOException;
-import java.util.concurrent.BlockingQueue;
+import java.util.List;
 
 /**
  * Created by nikbird on 09.06.2017.
@@ -11,58 +11,73 @@ import java.util.concurrent.BlockingQueue;
  */
 public class Worker extends StoppableThread {
 
-    // данный флаг полезен, если необходимо "мягко" остановить
-    // все выполняющиеся потоки класса Worker
+    /**
+     *  Данный флаг предназначен для "мягкой" остановки
+     *  всех выполняющихся потоков класса Worker
+     */
     public static volatile boolean stopAll = false;
 
+    /**
+     *  Текстовый ресурс, из которого Worker получает "сырые" данные
+     */
     private TextResource resource;
-    private Reporter reporter;
-    private Parser parser;
+
+    /**
+     *  Парсер для "сырых данных"
+     */
+    private Parser newParser;
 
 
-    public Worker(Reporter reporter, TextResource resource, Parser parser) {
-        this.reporter = reporter;
+    public Worker(TextResource resource) {
         this.resource = resource;
-        this.parser = parser;
+        newParser = new LineParser();
     }
 
     @Override
     public void run() {
-        System.out.println("Поток \"Работник\" запущен");
+        System.out.println("Worker for [" + resource.getName() + "] started.");
         try {
             String line;
             break_thread:
             do {
                 line = resource.readLine();
-                System.out.println(line + line);
-                for (String word : parser.init(line)) {
+                for (String word : newParser.init(line)) {
                     if (stopWork || Worker.stopAll)
                         break break_thread;
-                    reporter.getQueue().put(word);
-                    Thread.sleep(200);
+
+                    // отправляем токен всем потокам-потребителям
+                    Reporter.sendToAllReporters(word);
+                    Thread.sleep(100);
                 }
             } while (true);
         } catch (EndOfResourceException e) {
             // ресурс пуст, просто завершаем рабочий поток
-            resource = null;
+//            resource = null;
         } catch (InterruptedException e) {
             e.printStackTrace();
             if (!stopWork) {
-                System.out.println("Неожиданное завершение потока \"Работник\"");
+                System.out.println("Неожиданное завершение потока Worker[" + resource.getName() + "].");
             }
         } catch (ParserException e) {
-            e.printStackTrace();
             // парсер обнаружил латинский символ - останавливаем все потоки Worker
+            System.out.println("Invalid token: [" + e.getToken() + "]. Stop parsing.");
             Worker.stopAll = true;
-        } finally {
-            if (resource != null)
-                try {
-                    resource.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
         }
-        System.out.println("Поток \"Работник\" завершен");
+        try {
+            resource.close();
+        } catch (IOException e) {
+//            e.printStackTrace();
+            System.out.println("Resource [" + resource.getName() + "] exception on close");
+        }
+//        finally {
+//            if (resource != null)
+//                try {
+//                    resource.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//        }
+        System.out.println("Worker for [" + resource.getName() + "] ended");
     }
 
 }
