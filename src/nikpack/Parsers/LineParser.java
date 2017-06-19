@@ -1,39 +1,11 @@
-package nikpack;
+package nikpack.Parsers;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.Iterator;
 
 /**
- * Created by nikbird on 11.06.2017.
- *
- * Интерфейс, описывающий некий парсер текстовой строки
- *
+ * Created by sa on 20.06.17.
  */
-public interface Parser extends Iterable<String>, Iterator<String> {
-    Iterable<String> init(String line);
-}
-
-/**
- * Данное исключение предназначено для сообщения коду, использующему парсер, о
- * возникновении ошибочной сутуации - при обнаружении хотя бы одного символа
- * в очередном слове анализируемой строки
- */
-class ParserException extends RuntimeException {
-    private String token;
-
-    public ParserException(String token) {
-        super();
-        this.token = token;
-    }
-
-    public String getToken() {
-        return token;
-    }
-}
-
-
-class LineParser implements Parser {
+public class LineParser implements Parser {
 
     private String[] words;
     private int index;

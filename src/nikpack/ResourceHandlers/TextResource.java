@@ -1,7 +1,6 @@
-package nikpack;
+package nikpack.ResourceHandlers;
 
-import java.io.*;
-import java.util.Scanner;
+import java.io.IOException;
 
 /**
  * Created by nikbird on 09.06.2017.
@@ -32,39 +31,3 @@ public interface TextResource {
     void close() throws IOException;
     String getName();
 }
-
-
-
-/**
- * Тестовый ресурс, получающий данный из обычной строки
- */
-class TestTextResource implements TextResource {
-
-    private Scanner scanner;
-
-    public TestTextResource(String text) {
-        this.scanner = new Scanner(text);
-
-    }
-
-    @Override
-    public String readLine() throws EndOfResourceException {
-        if (scanner.hasNextLine()) {
-            return scanner.nextLine();
-        }
-        else {
-            throw new EndOfResourceException(this);
-        }
-    }
-
-    @Override
-    public void close() throws IOException {
-        scanner.close();
-    }
-
-    @Override
-    public String getName() {
-        return "TestTextResource";
-    }
-}
-

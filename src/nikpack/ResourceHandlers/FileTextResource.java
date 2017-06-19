@@ -1,4 +1,6 @@
-package nikpack;
+package nikpack.ResourceHandlers;
+
+import nikpack.ResourceHandlers.TextResource;
 
 import java.io.*;
 

@@ -1,7 +1,7 @@
 package Tests;
 
-import nikpack.TextResource.EndOfResourceException;
-import nikpack.FileTextResource;
+import nikpack.ResourceHandlers.TextResource.EndOfResourceException;
+import nikpack.ResourceHandlers.FileTextResource;
 import org.junit.jupiter.api.*;
 
 import java.io.FileNotFoundException;

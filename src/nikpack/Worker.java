@@ -1,7 +1,10 @@
 package nikpack;
 
+import nikpack.Parsers.LineParser;
+import nikpack.Parsers.Parser;
+import nikpack.ResourceHandlers.TextResource;
+
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by nikbird on 09.06.2017.
@@ -52,13 +55,12 @@ public class Worker extends StoppableThread {
             } while (true);
         } catch (TextResource.EndOfResourceException e) {
             // ресурс пуст, просто завершаем рабочий поток
-//            resource = null;
         } catch (InterruptedException e) {
             e.printStackTrace();
             if (!stopWork) {
                 System.out.println("Неожиданное завершение потока Worker[" + resource.getName() + "].");
             }
-        } catch (ParserException e) {
+        } catch (Parser.ParserException e) {
             // парсер обнаружил латинский символ - останавливаем все потоки Worker
             System.out.println("Invalid token: [" + e.getToken() + "]. Stop parsing.");
             Worker.stopAll = true;
@@ -66,17 +68,9 @@ public class Worker extends StoppableThread {
         try {
             resource.close();
         } catch (IOException e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             System.out.println("Resource [" + resource.getName() + "] exception on close");
         }
-//        finally {
-//            if (resource != null)
-//                try {
-//                    resource.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//        }
         System.out.println("Worker for [" + resource.getName() + "] ended");
     }
 
